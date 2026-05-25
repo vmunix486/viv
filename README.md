@@ -6,7 +6,7 @@ vmunix's image viewer, using stb
  - Can run on new and old computers (Tested on at least Windows XP)
  - Supports lots of image formats (jpeg, png, tga, bmp, psd, static gif, hdr, pic, pnm)
  - Double buffering to prevent flashing
- - Very small (~350 lines of code)
+ - Very small (~350 lines of code, ~290 SLOC)
 
 # Compilation Guide
 
