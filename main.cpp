@@ -339,6 +339,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		hInstance,
 		NULL);
 
+	SetWindowTextA(hwnd, "");
+
 	if (!hwnd)
 	{
 		return 0;
