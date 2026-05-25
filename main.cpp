@@ -339,7 +339,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		hInstance,
 		NULL);
 
-	SetWindowTextA(hwnd, "");
+	SetWindowTextA(hwnd, ""); // Window title currently set to nothing because ANSI and UNICODE mismatching characters.
 
 	if (!hwnd)
 	{
