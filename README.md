@@ -3,6 +3,9 @@ vmunix's image viewer, using stb
 
 # Features
 
+<img width="1341" height="484" alt="viv" src="https://github.com/user-attachments/assets/a5d2b460-babd-44f2-913d-5fdd88ee600f" />
+
+
  - Can run on new and old computers (Tested on at least Windows XP)
  - Supports lots of image formats (jpeg, png, tga, bmp, psd, static gif, hdr, pic, pnm)
  - Double buffering to prevent flashing
