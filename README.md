@@ -19,7 +19,6 @@ If opened, it just shows a default file picker and when the file is picked, it d
 
 # TODO
 
- - Add support for loading images via an argument (eg. using viv as the main image viewer)
  - Add double buffering support to fix flashing on resize
  - Fix the name of the Window being garbled garbage
 
