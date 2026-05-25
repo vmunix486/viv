@@ -15,6 +15,8 @@ vmunix's image viewer, using stb
 
 Make a new project in Microsoft Visual C++ 2008 (newer versions might work, but I have not tried them), then just drag `main.cpp` and `stb_image.h` into the solution and select to compile. Make sure that the files are actually in the solution folder first before filling out a bug report.
 
+If the title of the window is all messed up, then go into `Project -> <name> Properties...` then under `Configuration Properties`, go into `General`, then change `Character Set` to `Use Multi-Byte Character Set`, and below that, change `Common Language Runtime support` to `Common Language Runtime Support (/clr)`. This should fix problems relating to Chinese characters or strange symbols in the title of the window.
+
 # Usage
 
 If opened, it just shows a default file picker and when the file is picked, it displays it. If you want to load another picture, then just press the L key and choose another picture to load. If you drag a picture to the executable in something like explorer, it will start with that picture loaded already, same with if you set this as your primary image viewer or use the command line itself.
@@ -24,7 +26,6 @@ viv.exe <path to image>
 
 # TODO
 
- - Fix the name of the Window being garbled garbage (suppressed currently by setting the window name to nothing)
  - Add animated gif support
  - Add installer and icon
  - Add `h` for help and also `a` for about
