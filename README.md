@@ -21,6 +21,7 @@ If opened, it just shows a default file picker and when the file is picked, it d
 
  - Add double buffering support to fix flashing on resize
  - Fix the name of the Window being garbled garbage
+ - Add animated gif support
 
 # Contributing
 
