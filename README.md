@@ -8,25 +8,21 @@ vmunix's image viewer, using stb
  - Double buffering to prevent flashing
  - Very small (~350 lines of code)
 
-# Why
+# Compilation Guide
 
-Becuase all the image viewers that were on my Windows XP laptop sucked, and I didn't feel like going out and getting some other bloated image viewer that fried my Pentium M with all these fancy stuff.
-
-# How
-
-Microsoft Visual C++ 2008.
-
-Wait, if you mean how do you compile it, then just make a new project in MSVC++ 2008 and drag in both the `main.cpp` and `stb_image.h` files and compile it.
+Make a new project in Microsoft Visual C++ 2008 (newer versions might work, but I have not tried them), then just drag `main.cpp` and `stb_image.h` into the solution and select to compile. Make sure that the files are actually in the solution folder first before filling out a bug report.
 
 # Usage
 
 If opened, it just shows a default file picker and when the file is picked, it displays it. If you want to load another picture, then just press the L key and choose another picture to load. If you drag a picture to the executable in something like explorer, it will start with that picture loaded already, same with if you set this as your primary image viewer or use the command line itself.
+```
+viv.exe <path to image>
+```
 
 # TODO
 
  - Fix the name of the Window being garbled garbage
  - Add animated gif support
- - Clean up this README some
 
 # Contributing
 
