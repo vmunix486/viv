@@ -24,9 +24,10 @@ viv.exe <path to image>
 
 # TODO
 
- - Fix the name of the Window being garbled garbage
+ - Fix the name of the Window being garbled garbage (suppressed currently by setting the window name to nothing)
  - Add animated gif support
  - Add installer and icon
+ - Add `h` for help and also `a` for about
 
 # Contributing
 
