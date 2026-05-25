@@ -15,7 +15,7 @@ Wait, if you mean how do you compile it, then just make a new project in MSVC++ 
 
 If opened, it just shows a default file picker and when the file is picked, it displays it. If you want to load another picture, then just press the L key and choose another picture to load
 
-**WARNING: RESIZING THE WINDOW CAUSES THE IMAGE TO FLASH. THIS CAN BE DANGEROUS TO PEOPLE WITH EPILEPSY. YOU HAVE BEEN WARNED!!!**
+**WARNING: RESIZING THE WINDOW CAUSES THE IMAGE TO FLASH ON SLOW COMPUTERS. THIS CAN BE DANGEROUS TO PEOPLE WITH EPILEPSY. YOU HAVE BEEN WARNED!!!**
 
 # TODO
 
