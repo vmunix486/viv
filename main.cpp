@@ -15,6 +15,8 @@ static int gImageHeight = 0;
 
 static HBRUSH gBackgroundBrush = NULL;
 
+#define WM_LOAD_CMDLINE (WM_USER + 1)
+
 static BOOL LoadImageFile(HWND hwnd, const char* filename)
 {
 	int width;
@@ -135,7 +137,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 		// Create the window
 	case WM_CREATE:
 		{
-			OpenImageDialog(hwnd);
+			PostMessage(hwnd, WM_LOAD_CMDLINE, 0, 0);
+			/*LPSTR cmd = GetCommandLineA();
+			while (*cmd && *cmd != ' ') cmd++;
+			while (*cmd == ' ') cmd++;
+
+			if (*cmd == '\0')
+				OpenImageDialog(hwnd);
+*/
 			return 0;
 		}
 	// If the window gets resized, then redraw the window
@@ -285,6 +294,48 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 
 			return 0;
 		}
+	case WM_LOAD_CMDLINE:
+		{
+			LPSTR cmd = GetCommandLineA();
+
+			if (*cmd == '"')
+			{
+				cmd++;
+				while (*cmd && *cmd != '"') cmd++;
+				if (*cmd == '"') cmd++;
+			}
+			else
+			{
+				while (*cmd && *cmd != ' ') cmd++;
+			}
+
+			while (*cmd == ' ') cmd++;
+
+			if (*cmd != '\0')
+			{
+				if (*cmd == '"')
+				{
+					cmd++;
+					char path[MAX_PATH];
+					int i = 0;
+					while (*cmd && *cmd != '"' && i < MAX_PATH - 1)
+						path[i++] = *cmd++;
+					path[i] = '\0';
+					LoadImageFile(hwnd, path);
+				}
+				else
+				{
+					LoadImageFile(hwnd, cmd);
+				}
+			}
+			else
+			{
+				OpenImageDialog(hwnd);
+			}
+
+			return 0;
+		}
+
 	// Demolish the window. Kaboom.
 	case WM_DESTROY:
 		{
@@ -348,6 +399,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if (!hwnd)
 	{
 		return 0;
+
+		if (lpCmdLine && lpCmdLine[0] != '\0')
+			LoadImageFile(hwnd, lpCmdLine);
 	}
 
 	ShowWindow(hwnd, nCmdShow);
