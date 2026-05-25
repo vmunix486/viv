@@ -1,3 +1,9 @@
+// This is viv, vmunix's image viewer. This is a program that I made out of spite for my beloved Dell Latitude D610 with Windows XP 
+// and Microsoft Visual C++ 2008. It was out of spite because freaking all of the image viewers that I already had installed sucked
+// and I didn't feel like going online and downloading some closed-source slop. I remembered that there was an image thing in stb
+// from nothings. And fast forward to now, this image viewer now has support for all the things that stb does, on top of being
+// compatible with Windows XP and also having other things like double buffering and (soon) animated gif loading. -vmunix, 5/24/26
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <commdlg.h>
@@ -138,13 +144,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	case WM_CREATE:
 		{
 			PostMessage(hwnd, WM_LOAD_CMDLINE, 0, 0);
-			/*LPSTR cmd = GetCommandLineA();
-			while (*cmd && *cmd != ' ') cmd++;
-			while (*cmd == ' ') cmd++;
-
-			if (*cmd == '\0')
-				OpenImageDialog(hwnd);
-*/
 			return 0;
 		}
 	// If the window gets resized, then redraw the window
@@ -174,70 +173,31 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-
 			HDC hdc = BeginPaint(hwnd, &ps);
 
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 
-			FillRect(hdc, &rc, gBackgroundBrush);
+			int windowWidth = rc.right - rc.left;
+			int windowHeight = rc.bottom - rc.top;
+
+			// Create Back Buffer
+			HDC backDC = CreateCompatibleDC(hdc);
+			HBITMAP backBmp = CreateCompatibleBitmap(hdc, windowWidth, windowHeight);
+			HBITMAP oldBack = (HBITMAP)SelectObject(backDC, backBmp);
+
+			// Draw background onto back buffer
+			FillRect(backDC, &rc, gBackgroundBrush);
 
 			if (gBitmap)
 			{
-				HDC memdc = CreateCompatibleDC(hdc);
+				HDC memDC = CreateCompatibleDC(hdc);
+				HBITMAP oldBmp = (HBITMAP)SelectObject(memDC, gBitmap);
 
-				HBITMAP oldbmp =
-					(HBITMAP)SelectObject(memdc, gBitmap);
+				float imageAspect = (float)gImageWidth / (float)gImageHeight;
+				float windowAspect = (float)windowWidth / (float)windowHeight;
 
-				RECT rc;
-				GetClientRect(hwnd, &rc);
-
-				int windowWidth = rc.right - rc.left;
-				int windowHeight = rc.bottom - rc.top;
-
-				/* Create back buffer
-				HDC backdc = CreateCompatibleDC(hdc);
-
-				HBITMAP backbmp =
-					CreateCompatibleBitmap(hdc,
-										   windowWidth,
-										   windowHeight);
-
-				HBITMAP oldback =
-					(HBITMAP)SelectObject(backdc, backbmp);
-
-				 Clear Background
-				FillRect(backdc,						////////////////////////////////////////////////////////
-						 &rc,							// Commented out because double buffering didn't work //
-						 (HBRUSH)(COLOR_WINDOW + 1));	////////////////////////////////////////////////////////
-
-				 if (gBitmap)
-				{
-					HDC memdc = CreateCompatibleDC(hdc);
-					
-					HBITMAP oldbmp =
-						(HBITMAP)SelectObject(memdc, gBitmap); */
-
-				float scaleX =
-					(float)windowWidth / (float)gImageWidth;
-
-				float scaleY = 
-					(float)windowHeight / (float)gImageHeight;
-
-				float scale =
-					(scaleX < scaleY) ? scaleX : scaleY;
-
-				int drawWidth =
-					(int)(gImageWidth * scale);
-
-				int drawHeight =
-					(int)(gImageHeight * scale);
-
-				float imageAspect =
-					(float)gImageWidth / (float)gImageHeight;
-
-				float windowAspect =
-					(float)windowWidth / (float)windowHeight;
+				int drawWidth, drawHeight;
 
 				if (windowAspect > imageAspect)
 				{
@@ -249,49 +209,33 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 					drawWidth = windowWidth;
 					drawHeight = (int)(windowWidth / imageAspect);
 				}
-
 				int x = (windowWidth - drawWidth) / 2;
 				int y = (windowHeight - drawHeight) / 2;
 
+				// Stretch image onto back buffer
+				SetStretchBltMode(backDC, HALFTONE);
+				SetBrushOrgEx(backDC, 0, 0, NULL);
 
-				SetStretchBltMode(hdc, HALFTONE);
-				SetBrushOrgEx(hdc, 0, 0, NULL);
+				StretchBlt(backDC,
+						   x, y,
+						   drawWidth, drawHeight,
+						   memDC,
+						   0, 0,
+						   gImageWidth, gImageHeight,
+						   SRCCOPY);
+				
+				SelectObject(memDC, oldBmp);
+				DeleteDC(memDC);
+		}
+			// Flip the completed back buffer to the screen in oneshot niko
+			BitBlt(hdc, 0, 0, windowWidth, windowHeight, backDC, 0, 0, SRCCOPY);
 
-				StretchBlt(hdc,
-							x,
-							y,
-							drawWidth,
-							drawHeight,
-							memdc,
-							0,
-							0,
-							gImageWidth,
-							gImageHeight,
-							SRCCOPY);
-
-				SelectObject(memdc, oldbmp);
-
-				DeleteDC(memdc);
-				 }
-			/*}
-
-			BitBlt(hdc,
-				   0,
-				   0,
-				   windowWidth,
-				   windowHeight,    ////////////////////////////////////////////////////////
-				   backdc,			// Commented out because double buffering didn't work //
-				   0,				////////////////////////////////////////////////////////
-				   0,
-				   SRCCOPY);
-
-			SelectObject(backdc, oldback);
-
-			DeleteObject(backbmp);
-			DeleteDC(backdc); */
+			// Clean up back buffer
+			SelectObject(backDC, oldBack);
+			DeleteObject(backBmp);
+			DeleteDC(backDC);
 
 			EndPaint(hwnd, &ps);
-
 			return 0;
 		}
 	case WM_LOAD_CMDLINE:
@@ -375,7 +319,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	wc.hInstance = hInstance;
 	wc.lpszClassName = "TEST";
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	// wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wc.hbrBackground = 
 		gBackgroundBrush;
 
