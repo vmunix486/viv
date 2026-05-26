@@ -339,8 +339,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		hInstance,
 		NULL);
 
-	SetWindowTextA(hwnd, ""); // Window title currently set to nothing because ANSI and UNICODE mismatching characters.
-
+	SetWindowTextA(hwnd, "viv"); // See compilation instructions if this is not working
+	
 	if (!hwnd)
 	{
 		return 0;
