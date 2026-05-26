@@ -343,10 +343,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	
 	if (!hwnd)
 	{
-		return 0;
-
 		if (lpCmdLine && lpCmdLine[0] != '\0')
 			LoadImageFile(hwnd, lpCmdLine);
+
+		return 0;
+
 	}
 
 	ShowWindow(hwnd, nCmdShow);
