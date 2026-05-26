@@ -27,7 +27,7 @@ viv.exe <path to image>
 # TODO
 
  - Add animated gif support
- - Add installer and icon
+ - Add installer
  - Add `h` for help and also `a` for about
  - Add support for loading multiple images in gallery mode (controlling with arrow keys)
  - Add support for toggling automatic window refresh with `p` and loading frames with `n` (for slow computers, so it doesn't eat up CPU)
