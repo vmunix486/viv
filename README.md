@@ -24,14 +24,6 @@ If opened, it just shows a default file picker and when the file is picked, it d
 viv.exe <path to image>
 ```
 
-# TODO
-
- - Add animated gif support
- - Add installer
- - Add `h` for help and also `a` for about
- - Add support for loading multiple images in gallery mode (controlling with arrow keys)
- - Add support for toggling automatic window refresh with `p` and loading frames with `n` (for slow computers, so it doesn't eat up CPU)
-
 # Contributing
 
 You can contribute by forking this repository and making your modifications. Your modifications has to be in C++ that is compatible with MSVC++ 2008, and is compatible with at least Windows XP. When you are wanting to merge, just explain all your modifications, and also display a picture or video of the change.
