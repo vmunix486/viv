@@ -23,6 +23,7 @@ If opened, it just shows a default file picker and when the file is picked, it d
 ```
 viv.exe <path to image>
 ```
+There is a version for *NIX and X11. For that, go to [here](https://github.com/vmunix486/viv-x11).
 
 # Contributing
 
