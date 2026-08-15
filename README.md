@@ -1,3 +1,5 @@
+# THIS PROJECT IS OUTDATED. USE VIV2, IT'S A LOT BETTER: https://github.com/vmunix486/viv2
+
 # viv
 vmunix's image viewer, using stb
 
